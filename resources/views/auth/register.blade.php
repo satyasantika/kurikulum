@@ -1,7 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<h3 class="text-center">
+    silakan hubungi admin sistem untuk registrasi akun
+</h3>
+<p class="text-center">
+    silakan <a href="{{ route('login') }}" class="btn btn-sm btn-primary">LOGIN</a> jika sudah memiliki akun.
+</p>
+{{-- <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -73,5 +79,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 @endsection
