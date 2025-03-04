@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Cpmk extends Model
+class JoinCplBk extends Model
 {
     use HasFactory, HasUuids;
 
-    public function mk()
+    public function cpl()
     {
-        return $this->belongsTo(Mk::class,'mk_id');
+        return $this->belongsTo(Cpl::class,'cpl_id');
     }
 
-    public function subcpmks()
+    public function bk()
     {
-        return $this->hasMany(Subcpmk::class);
+        return $this->belongsTo(Bk::class,'bk_id');
     }
 }

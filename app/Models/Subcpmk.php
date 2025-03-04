@@ -2,20 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Subcpmk extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     public function cpmk()
     {
         return $this->belongsTo(Cpmk::class,'cpmk_id');
     }
 
-    public function pertemuans(): hasMany
+    public function kuliahs()
     {
-        return $this->hasMany(Pertemuan::class);
+        return $this->hasMany(Kuliah::class);
     }
 }

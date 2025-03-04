@@ -2,24 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Profil extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
-    public function prodi()
+    public function kurikulum()
     {
-        return $this->belongsTo(Prodi::class,'prodi_id');
+        return $this->belongsTo(Kurikulum::class,'kurikulum_id');
     }
 
-    public function profil_indikators(): hasMany
+    public function profil_indikators()
     {
         return $this->hasMany(ProfilIndikator::class);
     }
 
-    public function profil_cpls(): hasMany
+    public function profil_cpls()
     {
         return $this->hasMany(ProfilCpl::class);
     }

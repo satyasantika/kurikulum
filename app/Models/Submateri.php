@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Submateri extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
-    public function pertemuan()
+    public function kuliah()
     {
-        return $this->belongsTo(Pertemuan::class,'pertemuan_id');
+        return $this->belongsTo(Kuliah::class,'kuliah_id');
     }
 }

@@ -2,15 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Bk extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
-    public function cpl_bks(): hasMany
+    public function join_cpl_bks()
     {
-        return $this->hasMany(CplBk::class);
+        return $this->hasMany(JoinCplBk::class);
+    }
+
+    public function mks()
+    {
+        return $this->hasMany(Mk::class);
     }
 }

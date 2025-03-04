@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ProfilCpl extends Model
+class JoinProfilCpl extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     public function profil()
     {
@@ -18,10 +19,4 @@ class ProfilCpl extends Model
     {
         return $this->belongsTo(Cpl::class,'cpl_id');
     }
-
-    public function cpl_bks(): hasMany
-    {
-        return $this->hasMany(CplBk::class);
-    }
-
 }

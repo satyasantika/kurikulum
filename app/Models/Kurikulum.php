@@ -2,10 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Kurikulum extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
+
+    public function prodi()
+    {
+        return $this->belongsTo(Prodi::class,'prodi_id');
+    }
+
+    public function profils()
+    {
+        return $this->hasMany(Profil::class);
+    }
 }

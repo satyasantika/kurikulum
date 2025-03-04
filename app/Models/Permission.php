@@ -2,15 +2,11 @@
 
 namespace App\Models;
 
+use Spatie\Permission\Models\Permission as PermissionSpatie;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BerkasPembelajaran extends Model
+class Permission extends PermissionSpatie
 {
     use HasFactory;
-
-    public function pertemuan()
-    {
-        return $this->belongsTo(Pertemuan::class,'pertemuan_id');
-    }
 }
