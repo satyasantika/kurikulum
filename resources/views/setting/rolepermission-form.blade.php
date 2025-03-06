@@ -2,6 +2,7 @@
 
 @push('header')
     Edit Permission untuk {{ $role->name }}
+    <a href="{{ route('roles.index') }}" class="btn btn-primary btn-sm float-end">kembali</a>
 @endpush
 
 @push('body')

@@ -2,15 +2,7 @@
 
 @push('header')
     {{ $user->id ? 'Edit' : 'Tambah' }} {{ ucFirst(request()->segment(2)) }}
-    @if ($user->id)
-        <form id="delete-form" action="{{ route('users.destroy',$user->id) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-outline-danger btn-sm float-end" onclick="return confirm('Yakin akan menghapus {{ $user->name }}?');">
-                {{ __('delete') }}
-            </button>
-        </form>
-    @endif
+    <a href="{{ route('users.index') }}" class="btn btn-primary btn-sm float-end">kembali</a>
 @endpush
 
 @push('body')
@@ -110,4 +102,17 @@
     @csrf
 </form>
 @endif
+@if ($user->id)
+<div class="col">
+    <form id="delete-form" action="{{ route('users.destroy',$user->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <hr>
+        <button type="submit" class="btn btn-outline-danger btn-sm float-end" onclick="return confirm('Yakin akan menghapus {{ $user->name }}?');">
+            {{ __('delete') }}
+        </button>
+    </form>
+</div>
+@endif
+
 @endpush

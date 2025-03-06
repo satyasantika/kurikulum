@@ -2,6 +2,7 @@
 
 @push('header')
     {{ $permission->id ? 'Edit' : 'Tambah' }} {{ ucFirst(request()->segment(2)) }}
+    <a href="{{ route('permissions.index') }}" class="btn btn-primary btn-sm float-end">kembali</a>
 @endpush
 
 @push('body')

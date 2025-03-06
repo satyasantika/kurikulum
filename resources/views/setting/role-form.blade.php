@@ -2,15 +2,7 @@
 
 @push('header')
     {{ $role->id ? 'Edit' : 'Tambah' }} {{ ucFirst(request()->segment(2)) }}
-    @if ($role->id)
-        <form id="delete-form" action="{{ route('roles.destroy',$role->id) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-outline-danger btn-sm float-end" onclick="return confirm('Yakin akan menghapus {{ $role->name }}?');">
-                {{ __('delete') }}
-            </button>
-        </form>
-    @endif
+    <a href="{{ route('roles.index') }}" class="btn btn-primary btn-sm float-end">kembali</a>
 @endpush
 
 @push('body')
@@ -38,4 +30,15 @@
         </div>
     </div>
 </form>
+    @if ($role->id)
+        <form id="delete-form" action="{{ route('roles.destroy',$role->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <hr>
+            <button type="submit" class="btn btn-outline-danger btn-sm float-end" onclick="return confirm('Yakin akan menghapus {{ $role->name }}?');">
+                {{ __('delete') }}
+            </button>
+        </form>
+    @endif
+
 @endpush

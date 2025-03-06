@@ -7,7 +7,6 @@
             <div class="card">
                 <div class="card-header">
                     @stack('header')
-                    <a href="{{ route('home') }}" class="btn btn-primary btn-sm float-end">kembali</a>
                 </div>
                 <div class="card-body">
                     @if (session('success'))

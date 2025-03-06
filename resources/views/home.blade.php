@@ -8,13 +8,9 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+                    @includeWhen(auth()->user()->can('access dashboard dosen'),'dashboard.dosen')
+                    @includeWhen(auth()->user()->can('access dashboard prodi'),'dashboard.prodi')
+                    @includeWhen(auth()->user()->can('access dashboard admin'),'dashboard.admin')
                 </div>
             </div>
         </div>
