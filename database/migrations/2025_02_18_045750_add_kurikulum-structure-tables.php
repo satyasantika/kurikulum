@@ -105,6 +105,14 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
+        // interaksi mk-dosen
+        Schema::create('join_mk_dosens', function (Blueprint $table) {
+            $table->uuid('id')->primary('id');
+            $table->foreignUuid('mk_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
+            $table->boolean('koordinator')->default(0);
+            $table->timestamps();
+        });
         // cpmk
         Schema::create('cpmks', function (Blueprint $table) {
             $table->uuid('id')->primary('id');
@@ -121,6 +129,13 @@ return new class extends Migration
             $table->foreignUuid('cpmk_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
             $table->timestamps();
         });
+        // interaksi mk-cpmk
+        Schema::create('join_mk_cpmks', function (Blueprint $table) {
+            $table->uuid('id')->primary('id');
+            $table->foreignUuid('mk_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
+            $table->foreignUuid('cpmk_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
+            $table->timestamps();
+        });
         // sub cpmk
         Schema::create('subcpmks', function (Blueprint $table) {
             $table->uuid('id')->primary('id');
@@ -134,7 +149,6 @@ return new class extends Migration
             $table->uuid('id')->primary('id');
             $table->foreignUuId('subcpmk_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
             $table->text('materi')->nullable();
-            $table->foreignid('user_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete(); // dosen pengajar
             $table->integer('ke')->nullable();
             $table->date('tanggal')->nullable();
             $table->time('jam_mulai')->nullable();
@@ -143,29 +157,52 @@ return new class extends Migration
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });
+        // dosen pada pertemuan tertentu
+        Schema::create('join_kuliah_dosens', function (Blueprint $table) {
+            $table->uuid('id')->primary('id');
+            $table->foreignUuId('kuliah_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
+            $table->foreignid('user_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete(); // dosen pengajar
+            $table->timestamps();
+        });
         // sub materi
-        Schema::create('submateris', function (Blueprint $table) {
+        Schema::create('join_kuliah_submateris', function (Blueprint $table) {
             $table->uuid('id')->primary('id');
             $table->text('nama')->nullable();
             $table->foreignUuId('kuliah_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
             $table->timestamps();
         });
         // bentuk pembelajaran
-        Schema::create('kuliah_bentuks', function (Blueprint $table) {
+        Schema::create('bentuk_kuliahs', function (Blueprint $table) {
             $table->uuid('id')->primary('id');
-            $table->text('nama')->nullable();
+            $table->string('nama')->nullable();
+            $table->text('deskripsi')->nullable();
+            $table->timestamps();
+        });
+        // bentuk pembelajaran satu pertemuan
+        Schema::create('join_kuliah_bentuks', function (Blueprint $table) {
+            $table->uuid('id')->primary('id');
+            $table->foreignUuId('bentuk_kuliah_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
             $table->foreignUuId('kuliah_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
+            $table->text('deskripsi')->nullable();
+            $table->timestamps();
+        });
+        // bentuk pembelajaran
+        Schema::create('bentuk_evaluasis', function (Blueprint $table) {
+            $table->uuid('id')->primary('id');
+            $table->string('nama')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
         // evaluasi pembelajaran
-        Schema::create('kuliah_evaluasis', function (Blueprint $table) {
+        Schema::create('join_kuliah_evaluasis', function (Blueprint $table) {
             $table->uuid('id')->primary('id');
-            $table->text('nama')->nullable();
+            $table->foreignUuId('bentuk_evaluasi_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
             $table->foreignUuId('kuliah_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
         // berkas pembelajaran
-        Schema::create('kuliah_berkass', function (Blueprint $table) {
+        Schema::create('join_kuliah_berkass', function (Blueprint $table) {
             $table->uuid('id')->primary('id');
             $table->text('nama')->nullable();
             $table->foreignUuId('kuliah_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
@@ -179,25 +216,34 @@ return new class extends Migration
     public function down(): void
     {
         // berkas pembelajaran
-        Schema::table('kuliah_berkass', function (Blueprint $table) {
-            $table->dropForeign('kuliah_berkass_kuliah_id_foreign');
+        Schema::table('join_kuliah_berkass', function (Blueprint $table) {
+            $table->dropForeign('join_kuliah_berkass_kuliah_id_foreign');
         });
-        Schema::dropIfExists('kuliah_berkass');
+        Schema::dropIfExists('join_kuliah_berkass');
         // evaluasi pembelajaran
-        Schema::table('kuliah_evaluasis', function (Blueprint $table) {
-            $table->dropForeign('kuliah_evaluasis_kuliah_id_foreign');
+        Schema::table('join_kuliah_evaluasis', function (Blueprint $table) {
+            $table->dropForeign('join_kuliah_evaluasis_kuliah_id_foreign');
+            $table->dropForeign('join_kuliah_evaluasis_bentuk_evaluasi_id_foreign');
         });
-        Schema::dropIfExists('kuliah_evaluasis');
+        Schema::dropIfExists('join_kuliah_evaluasis');
+        Schema::dropIfExists('bentuk_evaluasis');
         // bentuk pembelajaran
-        Schema::table('kuliah_bentuks', function (Blueprint $table) {
-            $table->dropForeign('kuliah_bentuks_kuliah_id_foreign');
+        Schema::table('join_kuliah_bentuks', function (Blueprint $table) {
+            $table->dropForeign('join_kuliah_bentuks_kuliah_id_foreign');
+            $table->dropForeign('join_kuliah_bentuks_bentuk_kuliah_id_foreign');
         });
-        Schema::dropIfExists('kuliah_bentuks');
+        Schema::dropIfExists('join_kuliah_bentuks');
+        Schema::dropIfExists('bentuk_kuliahs');
         // sub materi
-        Schema::table('submateris', function (Blueprint $table) {
-            $table->dropForeign('submateris_kuliah_id_foreign');
+        Schema::table('join_kuliah_submateris', function (Blueprint $table) {
+            $table->dropForeign('join_kuliah_submateris_kuliah_id_foreign');
         });
-        Schema::dropIfExists('submateris');
+        Schema::dropIfExists('join_kuliah_submateris');
+        // dosen pertemuan
+        Schema::table('join_kuliah_dosens', function (Blueprint $table) {
+            $table->dropForeign('join_kuliah_dosens_kuliah_id_foreign');
+        });
+        Schema::dropIfExists('join_kuliah_dosens');
         // kuliah
         Schema::table('kuliahs', function (Blueprint $table) {
             $table->dropForeign('kuliahs_subcpmk_id_foreign');
@@ -208,6 +254,12 @@ return new class extends Migration
             $table->dropForeign('subcpmks_cpmk_id_foreign');
         });
         Schema::dropIfExists('subcpmks');
+        // interaksi mk-cpmk
+        Schema::table('join_mk_cpmks', function (Blueprint $table) {
+            $table->dropForeign('join_mk_cpmks_mk_id_foreign');
+            $table->dropForeign('join_mk_cpmks_cpmk_id_foreign');
+        });
+        Schema::dropIfExists('join_mk_cpmks');
         // interaksi cpl-cpmk
         Schema::table('join_cpl_cpmks', function (Blueprint $table) {
             $table->dropForeign('join_cpl_cpmks_cpl_id_foreign');
@@ -219,6 +271,12 @@ return new class extends Migration
             $table->dropForeign('cpmks_mk_id_foreign');
         });
         Schema::dropIfExists('cpmks');
+        // interaksi mk-dosen
+        Schema::table('join_mk_dosens', function (Blueprint $table) {
+            $table->dropForeign('join_mk_dosens_user_id_foreign');
+            $table->dropForeign('join_mk_dosens_mk_id_foreign');
+        });
+        Schema::dropIfExists('join_mk_dosens');
         // mata kuliah
         Schema::table('mks', function (Blueprint $table) {
             $table->dropForeign('mks_bk_id_foreign');
