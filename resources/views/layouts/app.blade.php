@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }} | @stack('title')</title>
+    <title>{{ config('app.name', 'Kurikulum') }} - @stack('title')</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -30,7 +30,8 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        @auth
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -49,6 +50,22 @@
                                 </li>
                             @endif --}}
                         @else
+                            {{-- add MENU from database --}}
+                            {{-- <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Menu
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    @foreach (\App\Models\Navigation::whereNotNull('parent_id')->orderBy('order')->get() as $menu)
+                                        @can('access '.$menu->url)
+                                        <a href="{{ url($menu->url) }}" class="dropdown-item">
+                                            <span>{{ $menu->name }}</span>
+                                        </a>
+                                        @endcan
+                                    @endforeach
+                                </div>
+                            </li> --}}
+                            {{-- menu default for Logout --}}
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -78,5 +95,6 @@
             @yield('content')
         </main>
     </div>
+    @stack('scripts')
 </body>
 </html>

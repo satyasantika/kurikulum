@@ -14,9 +14,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = Role::where('name','admin')->first();
-        $prodi = Role::where('name','prodi')->first();
-        $dosen = Role::where('name','dosen')->first();
         // data User
         User::create([
                 'name' => 'Admin',
@@ -30,14 +27,14 @@ class UserSeeder extends Seeder
             'username' => 'kaprodimat',
             'password' => bcrypt('1234'),
             'email' => 'mat@unsil.ac.id',
-        ])->assignRole('prodi')->assignRole('2151');
+        ])->syncRoles(['prodi','2151']);
 
         User::factory()->create([
             'name' => 'Dosen Pendidikan Matematika',
             'username' => 'dosenmat',
             'password' => bcrypt('1234'),
             'email' => 'dosen@unsil.ac.id',
-        ])->assignRole('dosen')->assignRole('2151');
+        ])->syncRoles(['dosen','2151']);
 
     }
 }
