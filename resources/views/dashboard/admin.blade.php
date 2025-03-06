@@ -15,4 +15,14 @@
             </div>
         </div>
     </div>
+    <div class="col-auto">
+        <div class="card">
+            <div class="card-header">Manajemen Prodi</div>
+            <div class="card-body">
+                <a href="{{ route('prodis.index') }}" class="btn btn-sm btn-primary">prodi</a>
+                <br>
+                <hr>
+            </div>
+        </div>
+    </div>
 </div>

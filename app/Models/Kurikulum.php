@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Kurikulum extends Model
 {
     use HasFactory, HasUuids;
+    protected $guarded = ['id'];
 
     public function prodi()
     {
